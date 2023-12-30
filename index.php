@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
+include('config.php');
+include('functions.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,24 +18,7 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Employee Compensation and Benefits</title>
 </head>
-<?php
-session_start();
-
-if (!isset($_SESSION['user_id'])) {
-    // Redirect to the login page if the user is not authenticated
-    header('Location: login.php');
-    exit();
-}
-
-?>
 <body>
-
-
-
-<?php
-include('config.php');
-include('functions.php');
-?>
 
 <?php include('includes/header.php'); ?>
 <?php include('includes/navigation.php'); ?>

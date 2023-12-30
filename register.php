@@ -1,63 +1,95 @@
 <!-- register.php -->
 
-<?php
-include('config.php');
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-    // Assuming you have a field in your registration form for selecting an employee
-    $employeeId = $_POST['employee_id'];
-
-    $sql = "UPDATE employees SET username = '$username', password = '$password' WHERE idemployees = $employeeId";
-    
-    if ($conn->query($sql) === TRUE) {
-        session_start();
-        $_SESSION['user_id'] = $employeeId;
-        $_SESSION['username'] = $username;
-        header("Location: index.php");
-        exit();
-    } else {
-        $error_message = "Error: " . $sql . "<br>" . $conn->error;
-    }
-}
-
-$conn->close();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     <link rel="stylesheet" href="css/style.css">
+    <title>Register</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .register-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #3498db;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #27ae60;
+            color: #fff;
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218c53;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #2c3e50;
+        }
+    </style>
 </head>
 <body>
 
-<h2>User Registration</h2>
+<div class="register-container">
+    <h1>Register</h1>
 
-<?php if (isset($error_message)) : ?>
-    <p style="color: red;"><?php echo $error_message; ?></p>
-<?php endif; ?>
+    <form action="process_register.php" method="post">
+        <label for="username">Username:</label>
+        <input type="text" name="username" required>
 
-<form method="post" action="">
-    <label for="username">Username:</label>
-    <input type="text" name="username" required>
-    
-    <label for="password">Password:</label>
-    <input type="password" name="password" required>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
 
-    <!-- Assuming you have a field for selecting an employee during registration -->
-    <label for="employee_id">Employee Id:</label>
-    <input type="text" name="employee_id" required>
+        <button type="submit">Register</button>
+    </form>
 
-    <button type="submit">Register</button>
-
-    <!-- Add a back button to redirect to login.php -->
-    <a href="login.php" class="button">Back to Login</a>
-</form>
+    <p>Already have an account? <a href="login.php">Login here</a></p>
+</div>
 
 </body>
 </html>

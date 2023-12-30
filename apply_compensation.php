@@ -22,10 +22,19 @@
         <select name="compensation_type" required>
             <option value="retirement">Retirement</option>
             <option value="resignation">Resignation</option>
-            <option value="other">Other</option>
+            <option value="overtime">Overtime Pay</option>
+            <option value="employee_loan">Employee Loan</option>
+            <!-- Add more options as needed -->
         </select>
 
-        <!-- Add more form fields based on your requirements -->
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date" required>
+
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date">
+
+        <label for="comments">Additional Comments:</label>
+        <textarea name="comments" rows="4"></textarea>
 
         <button type="submit" class="button">Submit Application</button>
     </form>

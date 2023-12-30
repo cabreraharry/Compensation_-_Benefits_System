@@ -1,24 +1,33 @@
 <?php
-
 include('config.php');
-function getCompensation($employeeId, $conn)
-{
-    $result = $conn->query("SELECT * FROM service_records WHERE employees_idemployees = $employeeId ORDER BY appointment_start_date DESC LIMIT 1");
+// functions.php
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        return $row['monthly_salary'];
+function getCompensationApplications($employeeId, $conn) {
+    $query = "SELECT compensation_type, created_at FROM compensation_application WHERE employee_id = $employeeId";
+    $result = $conn->query($query);
+
+    if ($result) {
+        $applications = [];
+        while ($row = $result->fetch_assoc()) {
+            $applications[] = $row;
+        }
+        return $applications;
     }
 
-    return 'N/A';
+    return false;
 }
+
+
+// functions.php
 
 function getEmployeeBenefits($employeeId, $conn)
 {
-    $result = $conn->query("SELECT * FROM benefits WHERE employee_id = $employeeId");
+    // Fetch benefits information for the employee
+    $benefitsQuery = "SELECT * FROM benefits WHERE employee_id = $employeeId";
+    $benefitsResult = $conn->query($benefitsQuery);
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
+    if ($benefitsResult->num_rows > 0) {
+        $row = $benefitsResult->fetch_assoc();
         $benefits = [];
 
         if ($row['health_insurance']) {
@@ -28,6 +37,10 @@ function getEmployeeBenefits($employeeId, $conn)
         if ($row['retirement_plan']) {
             $benefits[] = 'Retirement Plan';
         }
+
+        // Check the value of employee_discount and display accordingly
+        $employeeDiscountStatus = ($row['employee_discount'] == 1) ? 'Eligible' : 'Not Eligible';
+        $benefits[] = 'Employee Discount (' . $employeeDiscountStatus . ')';
 
         // You can add more conditions based on your benefits table columns.
 
@@ -102,19 +115,21 @@ function getTotalRecords($conn)
 // functions.php
 
 function authenticateUser($conn, $username, $password) {
-    $query = "SELECT * FROM employees WHERE username = '$username'";
-    $result = $conn->query($query);
+    $query = "SELECT * FROM employees WHERE username = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-        // Use password_verify to check if the entered password matches the hashed password
         if (password_verify($password, $user['password'])) {
             return $user;
         }
     }
 
-    return null; // Invalid credentials
+    return null;
 }
 
 ?>

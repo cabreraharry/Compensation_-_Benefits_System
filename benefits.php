@@ -1,3 +1,5 @@
+<!-- benefits.php -->
+
 <?php
 session_start();
 
@@ -22,6 +24,9 @@ $employeeId = $_SESSION['user_id'];
 
 // Fetch benefits information for the logged-in employee
 $benefits = getEmployeeBenefits($employeeId, $conn);
+
+// Fetch existing compensation applications for the logged-in employee
+$compensationApplications = getCompensationApplications($employeeId, $conn);
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +54,18 @@ $benefits = getEmployeeBenefits($employeeId, $conn);
         </ul>
     <?php else : ?>
         <p>No benefits information available.</p>
+    <?php endif; ?>
+
+    <!-- Display existing compensation applications -->
+    <h2>Existing Compensation Applications</h2>
+    <?php if ($compensationApplications) : ?>
+        <ul>
+            <?php foreach ($compensationApplications as $application) : ?>
+                <li>Compensation Type: <?php echo $application['compensation_type']; ?> - Created At: <?php echo $application['created_at']; ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else : ?>
+        <p>No existing compensation applications.</p>
     <?php endif; ?>
 
     <p style="text-align: center; margin-top: 20px;"><a href="index.php">Go back to Home</a></p>
