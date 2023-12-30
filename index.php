@@ -6,7 +6,19 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Employee Compensation and Benefits</title>
 </head>
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to the login page if the user is not authenticated
+    header('Location: login.php');
+    exit();
+}
+
+?>
 <body>
+
+
 
 <?php
 include('config.php');

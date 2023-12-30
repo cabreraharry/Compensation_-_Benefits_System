@@ -1,4 +1,6 @@
-<!-- includes/homepage.php -->
+<?php
+include('auth.php');
+?>
 
 <div class="container">
     <h1>Employee Compensation Dashboard</h1>
