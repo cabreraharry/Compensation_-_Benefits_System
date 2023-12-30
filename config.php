@@ -4,6 +4,8 @@ $username = "root";
 $password = "9090";
 $database = "hrm";
 
+$recordsPerPage = 10; 
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);
 
