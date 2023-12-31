@@ -24,7 +24,7 @@
             <option value="resignation">Resignation</option>
             <option value="overtime">Overtime Pay</option>
             <option value="employee_loan">Employee Loan</option>
-            <!-- Add more options as needed -->
+
         </select>
 
         <label for="start_date">Start Date:</label>
@@ -39,7 +39,7 @@
         <button type="submit" class="button">Submit Application</button>
     </form>
 
-    <!-- Back to homepage link -->
+
     <p style="text-align: center; margin-top: 20px;"><a href="index.php">Go back to Home</a></p>
 </div>
 

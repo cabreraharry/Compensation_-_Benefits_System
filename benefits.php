@@ -3,29 +3,22 @@
 <?php
 session_start();
 
-// Check if a session is already active
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Include necessary files
 include('config.php');
 include('functions.php');
 
-// Check if the user is already logged in
 if (!isset($_SESSION['user_id'])) {
-    // Redirect to the login page if the user is not authenticated
     header('Location: login.php');
     exit();
 }
 
-// Get the employee ID from the session
 $employeeId = $_SESSION['user_id'];
 
-// Fetch benefits information for the logged-in employee
 $benefits = getEmployeeBenefits($employeeId, $conn);
 
-// Fetch existing compensation applications for the logged-in employee
 $compensationApplications = getCompensationApplications($employeeId, $conn);
 ?>
 
