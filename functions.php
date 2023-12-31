@@ -1,6 +1,5 @@
 <?php
 include('config.php');
-// functions.php
 
 function getCompensationApplications($employeeId, $conn) {
     $query = "SELECT compensation_type, created_at FROM compensation_application WHERE employee_id = $employeeId";
@@ -17,8 +16,6 @@ function getCompensationApplications($employeeId, $conn) {
     return false;
 }
 
-
-// functions.php
 
 function getEmployeeBenefits($employeeId, $conn)
 {
@@ -42,7 +39,6 @@ function getEmployeeBenefits($employeeId, $conn)
         $employeeDiscountStatus = ($row['employee_discount'] == 1) ? 'Eligible' : 'Not Eligible';
         $benefits[] = 'Employee Discount (' . $employeeDiscountStatus . ')';
 
-        // You can add more conditions based on your benefits table columns.
 
         if (!empty($row['other_benefits'])) {
             $benefits[] = $row['other_benefits'];
@@ -55,7 +51,6 @@ function getEmployeeBenefits($employeeId, $conn)
 }
 
 
-// functions.php
 
 function displayEmployeeListWithPagination($conn, $currentPage, $recordsPerPage) {
     $start = ($currentPage - 1) * $recordsPerPage;
@@ -112,7 +107,7 @@ function getTotalRecords($conn)
     return $row['total'];
 }
 
-// functions.php
+
 
 function authenticateUser($conn, $username, $password) {
     $query = "SELECT * FROM employees WHERE username = ?";

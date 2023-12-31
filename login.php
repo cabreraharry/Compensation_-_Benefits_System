@@ -1,94 +1,54 @@
-<!-- login.php -->
+<?php
+include('config.php');
+include('functions.php');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = $_POST['password'];
+
+    $user = authenticateUser($conn, $username, $password);
+
+    if ($user) {
+        session_start();
+        $_SESSION['user_id'] = $user['idemployees'];
+        $_SESSION['username'] = $user['username'];
+
+        header('Location: index.php');
+        exit();
+    } else {
+        $error = "Invalid username or password.";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     <link rel="stylesheet" href="css/style.css">
     <title>Login</title>
-    <style>
-        body {
-            background-color: #f5f5f5;
-        }
-
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        h1 {
-            color: #3498db;
-            text-align: center;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 5px;
-        }
-
-        input {
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #3498db;
-            color: #fff;
-            padding: 15px;
-            font-size: 18px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #2980b9;
-        }
-
-        p {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        a {
-            color: #3498db;
-            text-decoration: none;
-        }
-
-        a:hover {
-            color: #2c3e50;
-        }
-    </style>
 </head>
 <body>
 
-<div class="login-container">
+<div class="container">
     <h1>Login</h1>
 
-    <form action="process_login.php" method="post">
+    <?php if (isset($error)) : ?>
+        <p class="error-message"><?php echo $error; ?></p>
+    <?php endif; ?>
+
+    <form action="login.php" method="post">
         <label for="username">Username:</label>
         <input type="text" name="username" required>
 
         <label for="password">Password:</label>
         <input type="password" name="password" required>
 
-        <button type="submit">Login</button>
-    </form>
+        <button type="submit" class="button">Login</button>
 
-    <p>Don't have an account? <a href="register.php">Register here</a></p>
+        <p>Don't have an account? <a href="register.php">Register here</a></p>
+    </form>
 </div>
 
 </body>
